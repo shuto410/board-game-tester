@@ -1,82 +1,81 @@
-import update from 'immutability-helper'
-import type { CSSProperties, FC } from 'react'
-import { useCallback, useState } from 'react'
-import { useDrop } from 'react-dnd'
-import { DraggableCard } from './Items/Card/DraggableCard'
-import { DraggableDeck } from './Items/Deck/DraggableDeck'
+import update from "immutability-helper";
+import type { CSSProperties, FC } from "react";
+import { useCallback, useState } from "react";
+import { useDrop } from "react-dnd";
+import { DraggableCard } from "./Items/Card/DraggableCard";
+import { DraggableDeck } from "./Items/Deck/DraggableDeck";
 
-import type { DragItem } from './interfaces'
-import { ItemType, ItemTypes } from './ItemTypes'
+import { Item, DragItem } from "./interfaces";
+import { Paper } from "@mui/material";
 
-const styles: CSSProperties = {
-  width: 300,
-  height: 300,
-  border: '1px solid black',
-  position: 'relative',
+export interface ContainerProps {
+  items: Item[];
+  setItems: (boxes: Item[]) => void;
 }
-
-
-interface BoxMap {
-  [key: string]: { top: number; left: number; title: string, itemType: ItemType }
-}
-
-export const Container: FC= () => {
-  const [boxes, setBoxes] = useState<BoxMap>({
-    a: { top: 20, left: 80, title: 'Card1', itemType: 'card' },
-    b: { top: 180, left: 20, title: 'Card2', itemType: 'card' },
-    c: { top: 100, left: 160, title: 'Deck1', itemType: 'deck' },
-  })
-
-  const moveBox = useCallback(
-    (id: string, left: number, top: number) => {
-      setBoxes(
-        update(boxes, {
-          [id]: {
-            $merge: { left, top },
-          },
-        }),
-      )
+export const Container: FC<ContainerProps> = ({ items, setItems }) => {
+  const moveItem = useCallback(
+    (id: number, left: number, top: number) => {
+      setItems(
+        items.map((box) => {
+          if (box.id === id) {
+            return {
+              id: box.id,
+              top,
+              left,
+              type: box.type,
+              contents: box.contents,
+            };
+          }
+          return box;
+        })
+      );
     },
-    [boxes],
-  )
+    [items]
+  );
 
   const [, drop] = useDrop(
     () => ({
-      accept: ItemTypes.CARD,
+      accept: ["card", "deck"],
       drop(item: DragItem, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset() as {
-          x: number
-          y: number
-        }
+          x: number;
+          y: number;
+        };
 
-        let left = Math.round(item.left + delta.x)
-        let top = Math.round(item.top + delta.y)
-        // if (snapToGrid) {
-        //   ;[left, top] = doSnapToGrid(left, top)
-        // }
+        let left = Math.round(item.left + delta.x);
+        let top = Math.round(item.top + delta.y);
 
-        moveBox(item.id, left, top)
-        return undefined
+        moveItem(item.id, left, top);
+        return undefined;
       },
     }),
-    [moveBox],
-  )
+    [moveItem]
+  );
 
   return (
     <div ref={drop} style={styles}>
-      {Object.keys(boxes).map((key) => (
-        boxes[key].itemType === ItemTypes.CARD ?
-          <DraggableCard
-            key={key}
-            id={key}
-            {...(boxes[key] as { top: number; left: number; title: string })}
-          /> :
-          <DraggableDeck
-            key={key}
-            id={key}
-            {...(boxes[key] as { top: number; left: number; title: string })}
-          />
-      ))}
+      <Paper
+        elevation={2}
+        style={{ width: "100%", height: "100%", backgroundColor: "#DFFFFF" }}
+      >
+        {items.map((item, i) => {
+          switch (item.type) {
+            case "card":
+              return <DraggableCard key={i} {...item} />;
+            case "deck":
+              return <DraggableDeck key={i} {...item} />;
+            default:
+              const exhaustiveCheck: never = item.type;
+              return exhaustiveCheck;
+          }
+        })}
+      </Paper>
     </div>
-  )
-}
+  );
+};
+
+const styles: CSSProperties = {
+  width: "90vw",
+  height: "90vh",
+  position: "relative",
+};

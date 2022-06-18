@@ -1,82 +1,79 @@
-import type { CSSProperties, FC } from 'react'
-import type { XYCoord } from 'react-dnd'
-import { useDragLayer } from 'react-dnd'
-import { CardDragPreview } from './Items/Card/CardDragPreview'
-import { DeckDragPreview } from './Items/Deck/DeckDragPreview'
-
-import { ItemTypes } from './ItemTypes'
-
-const layerStyles: CSSProperties = {
-  position: 'fixed',
-  pointerEvents: 'none',
-  zIndex: 100,
-  left: 0,
-  top: 0,
-  width: '100%',
-  height: '100%',
-}
-
-function getItemStyles(
-  initialOffset: XYCoord | null,
-  currentOffset: XYCoord | null,
-//   isSnapToGrid: boolean,
-) {
-  if (!initialOffset || !currentOffset) {
-    return {
-      display: 'none',
-    }
-  }
-
-  let { x, y } = currentOffset
-
-//   if (isSnapToGrid) {
-//     x -= initialOffset.x
-//     y -= initialOffset.y
-//     ;[x, y] = snapToGrid(x, y)
-//     x += initialOffset.x
-//     y += initialOffset.y
-//   }
-
-  const transform = `translate(${x}px, ${y}px)`
-  console.log('initial: ', initialOffset)
-  console.log('transform: ', transform)
-  return {
-    transform,
-    WebkitTransform: transform,
-  }
-}
+import type { CSSProperties, FC } from "react";
+import type { XYCoord } from "react-dnd";
+import { useDragLayer } from "react-dnd";
+import { Item, ItemType } from "./interfaces";
+import { Card } from "./Items/Card/Card";
+import { Deck } from "./Items/Deck/Deck";
 
 export const CustomDragLayer: FC = () => {
   const { itemType, isDragging, item, initialOffset, currentOffset } =
     useDragLayer((monitor) => ({
-      item: monitor.getItem(),
-      itemType: monitor.getItemType(),
+      item: monitor.getItem() as Item,
+      itemType: monitor.getItemType() as ItemType,
       initialOffset: monitor.getInitialSourceClientOffset(),
       currentOffset: monitor.getSourceClientOffset(),
       isDragging: monitor.isDragging(),
-    }))
+    }));
 
   function renderItem() {
     switch (itemType) {
-      case ItemTypes.CARD:
-        return <CardDragPreview title={item.title} />
-      case ItemTypes.DECK:
-        return <DeckDragPreview title={item.title} />
+      case "card":
+        return (
+          <div style={{ display: "inline-block" }}>
+            <Card {...item.contents} />
+          </div>
+        );
+      case "deck":
+        return (
+          <div style={{ display: "inline-block" }}>
+            <Deck title={item.contents.title} />
+          </div>
+        );
       default:
-        return null
+        const exhaustiveCheck: never = itemType;
+        return exhaustiveCheck;
     }
   }
 
   if (!isDragging) {
-    return null
+    return null;
   }
   return (
     <div style={layerStyles}>
-      <div
-        style={getItemStyles(initialOffset, currentOffset)}
-      >
+      <div style={getItemStyles(initialOffset, currentOffset)}>
         {renderItem()}
       </div>
     </div>
-  )
+  );
+};
+
+const layerStyles: CSSProperties = {
+  position: "fixed",
+  pointerEvents: "none",
+  zIndex: 100,
+  left: 0,
+  top: 0,
+  width: "100%",
+  height: "100%",
+};
+
+function getItemStyles(
+  initialOffset: XYCoord | null,
+  currentOffset: XYCoord | null
+) {
+  if (!initialOffset || !currentOffset) {
+    return {
+      display: "none",
+    };
+  }
+
+  let { x, y } = currentOffset;
+
+  const transform = `translate(${x}px, ${y}px)`;
+  console.log("initial: ", initialOffset);
+  console.log("transform: ", transform);
+  return {
+    transform,
+    WebkitTransform: transform,
+  };
 }
