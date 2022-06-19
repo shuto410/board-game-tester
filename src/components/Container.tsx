@@ -1,11 +1,8 @@
-import update from "immutability-helper";
 import type { CSSProperties, FC } from "react";
 import { useCallback, useState } from "react";
 import { useDrop } from "react-dnd";
-import { DraggableCard } from "./Items/Card/DraggableCard";
-import { DraggableDeck } from "./Items/Deck/DraggableDeck";
-
-import { Item, DragItem } from "./interfaces";
+import { DraggableItem } from "./DraggableItem";
+import { Item, DragItem } from "./model";
 import { Paper } from "@mui/material";
 
 export interface ContainerProps {
@@ -35,7 +32,7 @@ export const Container: FC<ContainerProps> = ({ items, setItems }) => {
 
   const [, drop] = useDrop(
     () => ({
-      accept: ["card", "deck"],
+      accept: ["CARD", "DECK", "CARD_PLACE"],
       drop(item: DragItem, monitor) {
         const delta = monitor.getDifferenceFromInitialOffset() as {
           x: number;
@@ -58,17 +55,9 @@ export const Container: FC<ContainerProps> = ({ items, setItems }) => {
         elevation={2}
         style={{ width: "100%", height: "100%", backgroundColor: "#DFFFFF" }}
       >
-        {items.map((item, i) => {
-          switch (item.type) {
-            case "card":
-              return <DraggableCard key={i} {...item} />;
-            case "deck":
-              return <DraggableDeck key={i} {...item} />;
-            default:
-              const exhaustiveCheck: never = item.type;
-              return exhaustiveCheck;
-          }
-        })}
+        {items.map((item, i) => (
+          <DraggableItem key={i} {...item} />
+        ))}
       </Paper>
     </div>
   );

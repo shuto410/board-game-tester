@@ -1,8 +1,9 @@
 import type { CSSProperties, FC } from "react";
 import type { XYCoord } from "react-dnd";
 import { useDragLayer } from "react-dnd";
-import { Item, ItemType } from "./interfaces";
+import { Item, ItemType } from "./model";
 import { Card } from "./Items/Card/Card";
+import { CardPlace } from "./Items/CardPlace/CardPlace";
 import { Deck } from "./Items/Deck/Deck";
 
 export const CustomDragLayer: FC = () => {
@@ -17,16 +18,22 @@ export const CustomDragLayer: FC = () => {
 
   function renderItem() {
     switch (itemType) {
-      case "card":
+      case "CARD":
         return (
           <div style={{ display: "inline-block" }}>
             <Card {...item.contents} />
           </div>
         );
-      case "deck":
+      case "DECK":
         return (
           <div style={{ display: "inline-block" }}>
             <Deck title={item.contents.title} />
+          </div>
+        );
+      case "CARD_PLACE":
+        return (
+          <div style={{ display: "inline-block" }}>
+            <CardPlace title={item.contents.title} />
           </div>
         );
       default:

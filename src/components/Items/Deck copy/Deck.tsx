@@ -21,7 +21,9 @@ export const Deck: FC<DeckContents> = memo(function Deck({ title }) {
 });
 
 const styles: CSSProperties = {
-  width: "150px",
-  height: "250px",
+  width: "180px",
+  height: "280px",
+  // border: "1px dashed gray",
+  // padding: "0.2rem 0.5rem",
   cursor: "move",
 };

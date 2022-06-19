@@ -20,4 +20,8 @@ export interface DeckContents {
   imageUrl?: string;
 }
 
-export type ItemType = "card" | "deck";
+export interface CardPlaceContents {
+  title?: string;
+}
+
+export type ItemType = "CARD" | "DECK" | "CARD_PLACE";
