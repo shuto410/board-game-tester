@@ -5,10 +5,9 @@ import {
   DialogContent,
   DialogContentText,
   DialogTitle,
-  ListItemSecondaryActionProps,
   TextField,
 } from "@mui/material";
-import { FC, memo, useState } from "react";
+import { FC, memo } from "react";
 
 export interface ItemEditorProps {
   isOpen: boolean;

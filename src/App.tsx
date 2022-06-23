@@ -2,7 +2,6 @@ import {
   AppBar,
   Box,
   Button,
-  Drawer,
   IconButton,
   SpeedDial,
   SpeedDialAction,
@@ -12,7 +11,7 @@ import {
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
+import { TouchBackend } from "react-dnd-touch-backend";
 import { Container } from "./components/Container";
 import { CustomDragLayer } from "./components/CustomDragLayer";
 import { Item, ItemType } from "./components/model";
@@ -109,7 +108,7 @@ function App() {
   return (
     <div className="App">
       {renderAppBar()}
-      <DndProvider backend={HTML5Backend}>
+      <DndProvider backend={TouchBackend}>
         <Container items={items} setItems={setItems} />
         <CustomDragLayer />
       </DndProvider>

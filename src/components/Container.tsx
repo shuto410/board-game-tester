@@ -1,5 +1,5 @@
 import type { CSSProperties, FC } from "react";
-import { useCallback, useState } from "react";
+import { useCallback } from "react";
 import { useDrop } from "react-dnd";
 import { DraggableItem } from "./DraggableItem";
 import { Item, DragItem } from "./model";
