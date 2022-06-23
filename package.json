@@ -14,6 +14,7 @@
     "@types/node": "^16.11.35",
     "@types/react": "^18.0.9",
     "@types/react-dom": "^18.0.4",
+    "gh-pages": "^4.0.0",
     "immutability-helper": "^3.1.1",
     "react": "^18.1.0",
     "react-dnd": "^16.0.1",
@@ -27,11 +28,9 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "rm": "rm -rf docs",
-    "mv": "mv build docs",
-    "git": "git add . && git commit -m \"Deploy\" && git push origin main",
-    "deploy": "npm run rm && npm run build && npm run mv && npm run git",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -50,5 +49,6 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  }
+  },
+  "homepage": "https://shuto410.github.io/board-game-tester"
 }
