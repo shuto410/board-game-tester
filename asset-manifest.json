@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/board-game-tester/static/css/main.8a685450.css",
-    "main.js": "/board-game-tester/static/js/main.d942079c.js",
+    "main.js": "/board-game-tester/static/js/main.27945b08.js",
     "static/js/787.00e670eb.chunk.js": "/board-game-tester/static/js/787.00e670eb.chunk.js",
     "index.html": "/board-game-tester/index.html",
     "main.8a685450.css.map": "/board-game-tester/static/css/main.8a685450.css.map",
-    "main.d942079c.js.map": "/board-game-tester/static/js/main.d942079c.js.map",
+    "main.27945b08.js.map": "/board-game-tester/static/js/main.27945b08.js.map",
     "787.00e670eb.chunk.js.map": "/board-game-tester/static/js/787.00e670eb.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.8a685450.css",
-    "static/js/main.d942079c.js"
+    "static/js/main.27945b08.js"
   ]
 }
