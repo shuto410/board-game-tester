@@ -20,6 +20,11 @@ export const initialData: Item[] = [
     top: 140,
     left: 140,
     type: "CARD",
-    contents: { title: "Card Title 2", description: "Card Description" },
+    contents: {
+      title: "Card Title 2",
+      imageUrl:
+        "https://www.spiritanimal.info/wp-content/uploads/Wolf-Spirit-Animal-2.jpg",
+      description: "Card Description",
+    },
   },
 ];

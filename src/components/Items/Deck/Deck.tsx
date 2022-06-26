@@ -1,9 +1,9 @@
 import { Paper, Typography } from "@mui/material";
 import type { CSSProperties, FC } from "react";
 import { memo } from "react";
-import { DeckContents } from "../../model";
+import { Contents } from "../../model";
 
-export const Deck: FC<DeckContents> = memo(function Deck({ title }) {
+export const Deck: FC<Contents> = memo(function Deck({ title }) {
   return (
     <div style={{ ...styles }}>
       <Paper
@@ -21,7 +21,7 @@ export const Deck: FC<DeckContents> = memo(function Deck({ title }) {
 });
 
 const styles: CSSProperties = {
-  width: "150px",
-  height: "250px",
+  width: "200px",
+  height: "300px",
   cursor: "move",
 };

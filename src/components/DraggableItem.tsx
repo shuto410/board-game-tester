@@ -29,7 +29,7 @@ export const DraggableItem: FC<DraggableItemProps> = memo(
     const renderItem = (): JSX.Element => {
       switch (type) {
         case "CARD":
-          return <Card {...contents} />;
+          return <Card id={id} />;
         case "DECK":
           return <Deck title={contents.title} />;
         case "CARD_PLACE":

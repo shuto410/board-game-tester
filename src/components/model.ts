@@ -6,22 +6,13 @@ export interface DragItem {
 }
 
 export interface Item extends DragItem {
-  contents: CardContents | DeckContents;
+  contents: Contents;
 }
 
-export interface CardContents {
+export interface Contents {
   title: string;
   imageUrl?: string;
   description?: string;
-}
-
-export interface DeckContents {
-  title: string;
-  imageUrl?: string;
-}
-
-export interface CardPlaceContents {
-  title?: string;
 }
 
 export type ItemType = "CARD" | "DECK" | "CARD_PLACE";

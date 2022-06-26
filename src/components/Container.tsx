@@ -4,28 +4,16 @@ import { useDrop } from "react-dnd";
 import { DraggableItem } from "./DraggableItem";
 import { Item, DragItem } from "./model";
 import { Paper } from "@mui/material";
+import { updateItemPosition } from "../store/items";
+import { useDispatch, useSelector } from "react-redux";
+import { selectAllItems } from "../store/selector";
 
-export interface ContainerProps {
-  items: Item[];
-  setItems: (boxes: Item[]) => void;
-}
-export const Container: FC<ContainerProps> = ({ items, setItems }) => {
+export const Container: FC = () => {
+  const dispatch = useDispatch();
+  const items = useSelector(selectAllItems);
   const moveItem = useCallback(
     (id: number, left: number, top: number) => {
-      setItems(
-        items.map((box) => {
-          if (box.id === id) {
-            return {
-              id: box.id,
-              top,
-              left,
-              type: box.type,
-              contents: box.contents,
-            };
-          }
-          return box;
-        })
-      );
+      dispatch(updateItemPosition({ id, left, top }));
     },
     [items]
   );

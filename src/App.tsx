@@ -20,10 +20,12 @@ import Storage from "@mui/icons-material/Storage";
 import CropPortrait from "@mui/icons-material/CropPortrait";
 import CropFree from "@mui/icons-material/CropFree";
 import { initialData } from "./initial-data";
+import { useDispatch } from "react-redux";
+import { addItem as addItemSlice } from "./store/items";
 
 function App() {
-  const [items, setItems] = useState<Array<Item>>([]);
-  const [itemId, setItemId] = useState<number>(0);
+  const dispatch = useDispatch();
+  const [itemId, setItemId] = useState<number>(initialData.length);
   const buttons: AddButton[] = [
     {
       icon: <CropPortrait />,
@@ -42,23 +44,20 @@ function App() {
     },
   ];
 
-  useEffect(() => {
-    // useStateの初期値で設定した場合、何故かドラッグ時の挙動がバグったのでここで初期化
-    setItems(initialData);
-    setItemId(3);
-  }, []);
-
   const addItem = (type: ItemType) => {
-    const box: Item = {
+    const item: Item = {
       id: itemId,
       top: 0,
       left: 0,
       type: type,
-      contents: { title: "Card Title", description: "description" },
+      contents: {
+        title: "Card Title",
+        imageUrl: "https://picsum.photos/seed/" + itemId + "/200/300",
+        description: "description",
+      },
     };
 
-    console.log(items);
-    setItems([...items, box]);
+    dispatch(addItemSlice(item));
     setItemId(itemId + 1);
   };
 
@@ -109,7 +108,7 @@ function App() {
     <div className="App">
       {renderAppBar()}
       <DndProvider backend={TouchBackend}>
-        <Container items={items} setItems={setItems} />
+        <Container />
         <CustomDragLayer />
       </DndProvider>
       {renderButtons()}

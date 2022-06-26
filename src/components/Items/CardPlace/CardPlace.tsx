@@ -1,11 +1,9 @@
 import { Paper, Typography } from "@mui/material";
 import type { CSSProperties, FC } from "react";
 import { memo } from "react";
-import { CardPlaceContents } from "../../model";
+import { Contents } from "../../model";
 
-export const CardPlace: FC<CardPlaceContents> = memo(function CardPlace({
-  title,
-}) {
+export const CardPlace: FC<Contents> = memo(function CardPlace({ title }) {
   return (
     <div style={{ ...styles }}>
       <Paper
@@ -23,7 +21,7 @@ export const CardPlace: FC<CardPlaceContents> = memo(function CardPlace({
 });
 
 const styles: CSSProperties = {
-  width: "170px",
-  height: "270px",
+  width: "220px",
+  height: "320px",
   cursor: "move",
 };

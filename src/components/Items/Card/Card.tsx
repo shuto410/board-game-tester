@@ -1,25 +1,34 @@
 import { CSSProperties, FC, useState } from "react";
 import { memo } from "react";
-import { Card as MuiCard } from "@mui/material";
+import { Card as MuiCard, CardHeader, CardMedia } from "@mui/material";
 import { CardContent, Typography, CardActions, Button } from "@mui/material";
-import { CardContents } from "../../model";
+import { Contents } from "../../model";
 import { ItemEditor } from "../../ItemEditor";
+import { RootState } from "../../../store";
+import { useSelector } from "react-redux";
+import { selectContents, selectItem } from "../../../store/selector";
 
-export interface CardProps extends CardContents {}
-export const Card: FC<CardProps> = memo(function Card({
-  title,
-  imageUrl,
-  description,
-}) {
+export interface CardProps {
+  id: number;
+}
+export const Card: FC<CardProps> = memo(function Card({ id }) {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const contents = useSelector(selectContents(id));
+  if (!contents) return null;
   return (
     <div style={{ ...styles }}>
-      <MuiCard sx={{ minWidth: 150, minHeight: 250, maxWidth: 150 }}>
+      <MuiCard
+        sx={{ minWidth: 200, minHeight: 300, maxWidth: 200, maxHeight: 300 }}
+      >
+        <CardHeader title={contents.title} />
+        <CardMedia
+          component="img"
+          height="130"
+          image={contents.imageUrl}
+          alt="Card Image"
+        />
         <CardContent>
-          <Typography variant="h6" component="div">
-            {title}
-          </Typography>
-          <Typography variant="body2">{description}</Typography>
+          <Typography variant="body2">{contents.description}</Typography>
         </CardContent>
         <CardActions>
           <Button size="small" onClick={() => setIsOpen(true)}>
@@ -29,11 +38,7 @@ export const Card: FC<CardProps> = memo(function Card({
       </MuiCard>
       <ItemEditor
         isOpen={isOpen}
-        contents={[
-          { label: "Title", value: title },
-          { label: "Image", value: imageUrl || "" },
-          { label: "Description", value: description || "" },
-        ]}
+        id={id}
         closeModal={() => setIsOpen(false)}
       ></ItemEditor>
     </div>

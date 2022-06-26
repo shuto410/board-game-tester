@@ -21,7 +21,7 @@ export const CustomDragLayer: FC = () => {
       case "CARD":
         return (
           <div style={{ display: "inline-block" }}>
-            <Card {...item.contents} />
+            <Card id={item.id} />
           </div>
         );
       case "DECK":
